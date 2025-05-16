@@ -1,3 +1,8 @@
+
 export enum TableName {
-    EVENTS ='events'
+    EVENTS = 'events'
+}
+
+export enum DateFormat {
+    TODAY = 'dddd, Do MMM YYYY'
 }

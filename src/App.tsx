@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { createClient, type Session } from "@supabase/supabase-js";
-import { Auth } from "@supabase/auth-ui-react";
-import { ThemeSupa } from "@supabase/auth-ui-shared";
+import Login from "./components/Login/Login";
+import Billby from "./components/Billby/Billby";
+
+import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat'
+
+dayjs.extend(advancedFormat);
 
 const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY);
 
@@ -21,9 +26,9 @@ function App() {
   }, [])
   
   if (!session) {
-    return (<Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} providers={[]} showLinks={false}/>)
+    return <Login supabase={supabase} />
   } else {
-    return (<div>Logged in! <button onClick={() => supabase.auth.signOut()}>Logout</button></div>)
+    return (<Billby />)
   }
 
 }
