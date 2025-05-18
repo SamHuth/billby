@@ -4,7 +4,7 @@ import MonthDisplay from "./MonthDisplay"
 import { useEffect, useState } from "react"
 import type { SupabaseClient } from "@supabase/supabase-js"
 import type { Transaction, MonthTransactionGroup } from "../../utils/types"
-import { Limits, TableName } from "../../utils/enums"
+import { ColumnName, Limits, TableName } from "../../utils/enums"
 
 const Billby = ({supabase}: {supabase: SupabaseClient}) => {
 
@@ -14,7 +14,7 @@ const Billby = ({supabase}: {supabase: SupabaseClient}) => {
     // For the next X months ahead
     for(let month = 0; month < Limits.months; month++ ){
 
-        const currentLoopMonth = dayjs().add(month, 'M')
+        const currentLoopMonth = !month ? dayjs() : dayjs().startOf('M').add(month, 'M')
         const transactionsThisMonth: Transaction[] = []
 
         // Check all transactions for ones happening this month
@@ -37,7 +37,7 @@ const Billby = ({supabase}: {supabase: SupabaseClient}) => {
     }, [])
 
     const fetchAppData = async () => {
-        const { data } = await supabase.from(TableName.TRANSACTION).select();
+        const { data } = await supabase.from(TableName.TRANSACTION).select().eq(ColumnName.ARCHIVED, false);
         setAppData(data as Transaction[]);
     }
 

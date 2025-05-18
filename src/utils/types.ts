@@ -19,6 +19,6 @@ export type MonthTransactionGroup = {
 }
 
 export type DayTransactionGroup = {
-    date: number
+    dateObject: Dayjs
     transactions: Transaction[]
 }

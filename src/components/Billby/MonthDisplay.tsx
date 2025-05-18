@@ -1,6 +1,7 @@
 import type { Dayjs } from "dayjs"
 import DayDisplay from "./DayDisplay"
 import type { DayTransactionGroup, Transaction } from "../../utils/types"
+import dayjs from "dayjs"
 
 const MonthDisplay = ({month, transactions, currentMonth}: {month: Dayjs, transactions: Transaction[] ,currentMonth: boolean}) => {
     
@@ -13,14 +14,11 @@ const MonthDisplay = ({month, transactions, currentMonth}: {month: Dayjs, transa
 
         daysToDisplay.push(
             {
-                date: daysRemaining,
+                dateObject: dayjs(`${month.year()}/${month.month()}/${daysRemaining}`),
                 transactions: matchingTransactions
             }
         )
     }
-
-    console.log(daysToDisplay)
-
 
     return (
         <div className="flex flex-col border-2 border-gray-700 rounded-2xl">
@@ -28,7 +26,7 @@ const MonthDisplay = ({month, transactions, currentMonth}: {month: Dayjs, transa
             <div className="flex flex-col gap-1 rounded-b-2xl pb-1 bg-black text-white">
                 {daysToDisplay.map( day => {
                     return (
-                        <DayDisplay key={day.date} day={day} />
+                        <DayDisplay key={day.dateObject.toISOString()} day={day}/>
                     )
                 })}
             </div>
