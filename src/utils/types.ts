@@ -1,4 +1,5 @@
 import type { Dayjs } from "dayjs"
+import type { TransactionType } from "./enums"
 
 export type Transaction = {
     id: number
@@ -9,6 +10,7 @@ export type Transaction = {
     amount: number
     is_recurring: boolean
     recurring_day: boolean
+    type: TransactionType
 }
 
 export type MonthTransactionGroup = {

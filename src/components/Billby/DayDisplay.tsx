@@ -1,14 +1,17 @@
 import type { DayTransactionGroup } from "../../utils/types"
+import TransactionItem from "./TransactionItem"
 
 const DayDisplay = ({day}: {day: DayTransactionGroup}) => {
 
     const {date, transactions} = day
 
     return (
-        <p className="border-t first-of-type:border-0 border-gray-300">
+        <div className="p-4 border-t-2 border-gray-700 flex flex-col gap-1">
             <span className="w-[40px] inline-block font-bold">{date}</span>
-            <span className="text-gray-700 text-xs">{ transactions?.length ? transactions?.length + ' items' : '-'}</span>
-        </p>
+            <div className="inline-flex flex-col grow gap-2">
+                {transactions?.map( transaction => <TransactionItem transaction={transaction}/> )}
+            </div>
+        </div>
     )
 }
 
