@@ -1,24 +1,37 @@
 import type { Dayjs } from "dayjs"
-import dayjs from "dayjs"
+import DayDisplay from "./DayDisplay"
+import type { DayTransactionGroup, Transaction } from "../../utils/types"
 
-const MonthDisplay = ({month, currentMonth}: {month: Dayjs, currentMonth: boolean}) => {
-
-    const daysRemainingInMonth: number = currentMonth ? month.daysInMonth() - dayjs().date() + 1  : month.daysInMonth()
-    const daysToDisplay: string[] = []
+const MonthDisplay = ({month, transactions, currentMonth}: {month: Dayjs, transactions: Transaction[] ,currentMonth: boolean}) => {
     
-    for( let daysRemaining = currentMonth ? daysRemainingInMonth : 1; daysRemaining <= month.daysInMonth(); daysRemaining++ ){
+    const daysRemainingInMonth: number = currentMonth ? month.daysInMonth() - month.date() : month.daysInMonth()
+    const daysToDisplay: DayTransactionGroup[] = []
+    
+    for( let daysRemaining = currentMonth ? month.daysInMonth() - daysRemainingInMonth : 1; daysRemaining <= month.daysInMonth(); daysRemaining++ ){
+
+        const matchingTransactions: Transaction[] = transactions.filter( transaction => transaction.event_day === daysRemaining )
+
         daysToDisplay.push(
-            String(daysRemaining)
+            {
+                date: daysRemaining,
+                transactions: matchingTransactions
+            }
         )
     }
 
+    console.log(daysToDisplay)
+
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col px-2">
             <p className="px-2 py-2 text-2xl font-light bg-slate-200 rounded">{month.format('MMMM')}</p>
-            <p className="px-2">{daysToDisplay.map( day => (
-                <p className="border-t first-of-type:border-0 border-gray-200"><span className="w-[40px] inline-block">{day}</span><span className="text-gray-300 text-xs">No items</span></p>
-            ))}</p>
+            <div className="px-2">
+                {daysToDisplay.map( day => {
+                    return (
+                        <DayDisplay key={day.date} day={day} />
+                    )
+                })}
+            </div>
         </div>
     )
 }

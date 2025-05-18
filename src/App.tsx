@@ -12,24 +12,36 @@ const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env
 
 function App() {
 
+  const [loadingSession, setLoadingSession] = useState<boolean>(true)
   const [session, setSession] = useState<Session | null>(null)
 
   useEffect(() => {
+    
+    // Check Supabase Session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
+      setLoadingSession(false)
     })
+    
+    // Check Supabase Session Subscription
     const { data: { subscription }, } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
+      setLoadingSession(false)
     })
     
     return () => subscription.unsubscribe()
   }, [])
   
-  if (!session) {
-    return <Login supabase={supabase} />
+  if(loadingSession){
+    return <p>Loading</p>
   } else {
-    return (<Billby />)
+    if (!session) {
+      return <Login supabase={supabase} />
+    } else {
+      return (<Billby supabase={supabase} />)
+    }
   }
+
 
 }
 
