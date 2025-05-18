@@ -4,10 +4,10 @@ import { DateFormat } from "../../utils/enums"
 const MainHeader = ({transactionsToday}: {transactionsToday: number}) => {
 
     return(
-        <div className="flex flex-col bg-white border-b border-gray-300 p-2 sticky top-0">
+        <div className="flex flex-col rounded-lg p-4 py-8 mt-2 bg-black text-white">
             <div className="flex gap-4 justify-between items-center">
                 <div>
-                    <h1 className="font-bold text-lg">{ dayjs().format(DateFormat.TODAY) }</h1>
+                    <h1 className="font-bold text-2xl font-alt">{ dayjs().format(DateFormat.TODAY) }</h1>
                     <p>{transactionsToday} Transactions Today</p>
                 </div>
                 {/* <div className="flex gap-1">

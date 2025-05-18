@@ -24,7 +24,7 @@ const MonthDisplay = ({month, transactions, currentMonth}: {month: Dayjs, transa
 
     return (
         <div className="flex flex-col px-2">
-            <p className="px-2 py-2 text-2xl font-light bg-slate-200 rounded">{month.format('MMMM')}</p>
+            <p className="px-2 py-2 text-2xl bg-black text-white rounded-lg font-bold font-alt">{month.format('MMMM')}</p>
             <div className="px-2">
                 {daysToDisplay.map( day => {
                     return (
